@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import net.datafaker.Faker;
 import org.apache.flink.annotation.VisibleForTesting;
+import org.apache.flink.api.common.functions.OpenContext;
 import org.apache.flink.api.common.functions.RichFlatMapFunction;
-import org.apache.flink.configuration.Configuration;
 import org.apache.flink.table.data.GenericRowData;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.types.logical.LogicalType;
@@ -37,8 +37,8 @@ class FlinkFakerGenerator extends RichFlatMapFunction<Long, RowData> {
   }
 
   @Override
-  public void open(final Configuration parameters) throws Exception {
-    super.open(parameters);
+  public void open(final OpenContext openContext) throws Exception {
+    super.open(openContext);
     faker = new Faker();
 
     nextReadTime = System.currentTimeMillis();
@@ -90,8 +90,8 @@ class FlinkFakerGenerator extends RichFlatMapFunction<Long, RowData> {
   }
 
   private long getRowsPerSecondForSubTask() {
-    int numSubtasks = getRuntimeContext().getNumberOfParallelSubtasks();
-    int indexOfThisSubtask = getRuntimeContext().getIndexOfThisSubtask();
+    int numSubtasks = getRuntimeContext().getTaskInfo().getNumberOfParallelSubtasks();
+    int indexOfThisSubtask = getRuntimeContext().getTaskInfo().getIndexOfThisSubtask();
     long baseRowsPerSecondPerSubtask = rowsPerSecond / numSubtasks;
 
     // Always emit at least one record per second per subtask so that each subtasks makes some

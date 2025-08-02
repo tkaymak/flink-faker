@@ -50,7 +50,7 @@ class FlinkFakerTableSourceFactoryTest {
     assertThatExceptionOfType(ValidationException.class)
         .isThrownBy(
             () -> {
-              Map<String, String> properties = new HashMap();
+              Map<String, String> properties = new HashMap<String, String>();
               properties.put(FactoryUtil.CONNECTOR.key(), "faker");
               properties.put("fields.f0.expression", "#{number.numberBetween '-128','127'}");
               properties.put("fields.f1.expression", "#{number.numberBetween '-32768','32767'}");
@@ -71,7 +71,7 @@ class FlinkFakerTableSourceFactoryTest {
 
   @Test
   public void testValidNullRateIsValid() {
-    Map<String, String> properties = new HashMap();
+    Map<String, String> properties = new HashMap<String, String>();
     properties.put(FactoryUtil.CONNECTOR.key(), "faker");
     properties.put("fields.f0.expression", "#{number.numberBetween '-128','127'}");
     properties.put("fields.f0.null-rate", "0.1");
@@ -85,7 +85,7 @@ class FlinkFakerTableSourceFactoryTest {
     assertThatExceptionOfType(ValidationException.class)
         .isThrownBy(
             () -> {
-              Map<String, String> properties = new HashMap();
+              Map<String, String> properties = new HashMap<String, String>();
               properties.put(FactoryUtil.CONNECTOR.key(), "faker");
               properties.put("fields.f0.expression", "#{number.numberBetween '-128','127'}");
               properties.put("fields.f0.null-rate", "-0.8");
@@ -101,7 +101,7 @@ class FlinkFakerTableSourceFactoryTest {
     assertThatExceptionOfType(ValidationException.class)
         .isThrownBy(
             () -> {
-              Map<String, String> properties = new HashMap();
+              Map<String, String> properties = new HashMap<String, String>();
               properties.put(FactoryUtil.CONNECTOR.key(), "faker");
               properties.put("fields.f0.expression", "#{number.numberBetween '-128','127'}");
               properties.put("fields.f0.null-rate", "1.01");
@@ -117,7 +117,7 @@ class FlinkFakerTableSourceFactoryTest {
     assertThatExceptionOfType(ValidationException.class)
         .isThrownBy(
             () -> {
-              Map<String, String> properties = new HashMap();
+              Map<String, String> properties = new HashMap<String, String>();
               properties.put(FactoryUtil.CONNECTOR.key(), "faker");
               properties.put("fields.f0.expression", "#{number.randomDigit}");
               properties.put("fields.f1.expression", "#{number.randomDigit}");
@@ -133,7 +133,7 @@ class FlinkFakerTableSourceFactoryTest {
     assertThatExceptionOfType(ValidationException.class)
         .isThrownBy(
             () -> {
-              Map<String, String> properties = new HashMap();
+              Map<String, String> properties = new HashMap<String, String>();
               properties.put(FactoryUtil.CONNECTOR.key(), "faker");
               properties.put("fields.f0.expression", "#{number.abc}");
               properties.put("fields.f1.expression", "#{number.randomDigit}");
@@ -146,7 +146,7 @@ class FlinkFakerTableSourceFactoryTest {
   @Test
   public void testValidTableSourceIsValid() {
 
-    Map<String, String> properties = new HashMap();
+    Map<String, String> properties = new HashMap<String, String>();
     properties.put(FactoryUtil.CONNECTOR.key(), "faker");
     properties.put("fields.f0.expression", "#{number.numberBetween '-128','127'}");
     properties.put("fields.f1.expression", "#{number.numberBetween '-32768','32767'}");
@@ -171,7 +171,7 @@ class FlinkFakerTableSourceFactoryTest {
   @Test
   public void testTimestamps() {
 
-    Map<String, String> properties = new HashMap();
+    Map<String, String> properties = new HashMap<String, String>();
     properties.put(FactoryUtil.CONNECTOR.key(), "faker");
 
     properties.put("fields.f0.expression", "#{date.past '15','SECONDS'}");
@@ -194,7 +194,13 @@ class FlinkFakerTableSourceFactoryTest {
     TableEnvironment tableEnv = TableEnvironment.create(settings);
     TableEnvironmentInternal tableEnvInternal = (TableEnvironmentInternal) tableEnv;
 
-    CatalogTable table = CatalogTable.of(schema, "comment", Arrays.asList(), properties);
+    CatalogTable table =
+        CatalogTable.newBuilder()
+            .schema(schema)
+            .comment("comment")
+            .partitionKeys(Arrays.asList())
+            .options(properties)
+            .build();
 
     return FactoryUtil.createDynamicTableSource(
         null,

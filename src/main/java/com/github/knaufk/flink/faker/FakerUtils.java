@@ -63,11 +63,11 @@ public class FakerUtils {
       case TIMESTAMP_WITH_LOCAL_TIME_ZONE:
         return TimestampData.fromInstant(
             Instant.from(FORMATTER.withZone(ZoneId.systemDefault()).parse(value)));
-        //        break;
-        //              case INTERVAL_YEAR_MONTH:
-        //        break;
-        //      case INTERVAL_DAY_TIME:
-        //        break;
+      //        break;
+      //              case INTERVAL_YEAR_MONTH:
+      //        break;
+      //      case INTERVAL_DAY_TIME:
+      //        break;
       case ARRAY:
         Object[] arrayElements = new Object[stringArray.length];
         for (int i = 0; i < stringArray.length; i++)
@@ -107,18 +107,18 @@ public class FakerUtils {
           row.setField(i, obj);
         }
         return row;
-        //      case DISTINCT_TYPE:
-        //        break;
-        //      case STRUCTURED_TYPE:
-        //        break;
-        //      case NULL:
-        //        break;
-        //      case RAW:
-        //        break;
-        //      case SYMBOL:
-        //        break;
-        //      case UNRESOLVED:
-        //        break;
+      //      case DISTINCT_TYPE:
+      //        break;
+      //      case STRUCTURED_TYPE:
+      //        break;
+      //      case NULL:
+      //        break;
+      //      case RAW:
+      //        break;
+      //      case SYMBOL:
+      //        break;
+      //      case UNRESOLVED:
+      //        break;
       default:
         throw new RuntimeException("Unsupported Data Type");
     }

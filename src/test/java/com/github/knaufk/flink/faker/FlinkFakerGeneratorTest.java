@@ -3,7 +3,7 @@ package com.github.knaufk.flink.faker;
 import static com.github.knaufk.flink.faker.TestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.flink.configuration.Configuration;
+import org.apache.flink.api.common.functions.DefaultOpenContext;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.types.logical.*;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ class FlinkFakerGeneratorTest {
     LogicalType[] types = {new VarCharType(255), new VarCharType(Integer.MAX_VALUE)};
     FlinkFakerGenerator flinkFakerSourceFunction =
         new FlinkFakerGenerator(fieldExpressions, neverNull(2), getArrayOfOnes(2), types, 100);
-    flinkFakerSourceFunction.open(new Configuration());
+    flinkFakerSourceFunction.open(new DefaultOpenContext());
 
     assertThat(flinkFakerSourceFunction.generateNextRow().getArity()).isEqualTo(2);
     assertThat(flinkFakerSourceFunction.generateNextRow().getString(0)).isNotNull();
@@ -38,7 +38,7 @@ class FlinkFakerGeneratorTest {
     };
     FlinkFakerGenerator flinkFakerSourceFunction =
         new FlinkFakerGenerator(fieldExpressions, neverNull(3), getArrayOfOnes(3), types, 100);
-    flinkFakerSourceFunction.open(new Configuration());
+    flinkFakerSourceFunction.open(new DefaultOpenContext());
 
     RowData rowData = flinkFakerSourceFunction.generateNextRow();
     assertThat(rowData.getArity()).isEqualTo(3);
@@ -57,7 +57,7 @@ class FlinkFakerGeneratorTest {
             getArrayOfOnes(EXPRESSIONS_FOR_ALL_SUPPORTED_DATATYPES.length),
             ALL_SUPPORTED_DATA_TYPES,
             100);
-    flinkFakerSourceFunction.open(new Configuration());
+    flinkFakerSourceFunction.open(new DefaultOpenContext());
 
     RowData rowData = flinkFakerSourceFunction.generateNextRow();
     assertThat(rowData.getArity()).isEqualTo(EXPRESSIONS_FOR_ALL_SUPPORTED_DATATYPES.length);
@@ -76,7 +76,7 @@ class FlinkFakerGeneratorTest {
             getArrayOfOnes(EXPRESSIONS_FOR_ALL_SUPPORTED_DATATYPES.length),
             ALL_SUPPORTED_DATA_TYPES,
             100);
-    flinkFakerSourceFunction.open(new Configuration());
+    flinkFakerSourceFunction.open(new DefaultOpenContext());
 
     RowData rowData = flinkFakerSourceFunction.generateNextRow();
     assertThat(rowData.getArity()).isEqualTo(EXPRESSIONS_FOR_ALL_SUPPORTED_DATATYPES.length);
