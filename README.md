@@ -11,6 +11,15 @@ Checkout this [demo web application](https://java-faker.herokuapp.com/) for some
 
 This project is inspired by [voluble](https://github.com/MichaelDrogalis/voluble).
 
+## About this fork
+
+This fork ([tkaymak/flink-faker](https://github.com/tkaymak/flink-faker)) keeps flink-faker running on **Apache Flink 2.2**.
+All credit for flink-faker goes to its original author [Konstantin Knauf](https://github.com/knaufk);
+the Flink 2.1 port was contributed by [truelzsch](https://github.com/truelzsch/flink-faker).
+It is used in the Flink SQL playground of the FHNW CAS Data Engineering course
+([tkaymak/sql-cli-for-apache-flink-docker](https://github.com/tkaymak/sql-cli-for-apache-flink-docker)).
+Prebuilt jars are available on the [Releases](https://github.com/tkaymak/flink-faker/releases) page of this fork.
+
 ## Package
 
 ```shell script
@@ -28,6 +37,8 @@ mvn clean package
 | 1.15          | 0.5.0               |
 | 1.16          | 0.5.1+              |
 | 1.17          | 0.5.1+              |
+| 2.1           | 0.6.0 (fork)        |
+| 2.2           | 0.6.0 (fork)        |
 
 There are no automated tests that check this compatibility. So, please treat this table as "best knowledge". 
 If you notice any incompatibilities please open an issue.
